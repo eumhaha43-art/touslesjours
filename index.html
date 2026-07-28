@@ -1,0 +1,486 @@
+<!DOCTYPE html>
+<html lang="ko">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Tous Les Jours</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700&display=swap" rel="stylesheet">
+<link rel="stylesheet" href="https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css">
+<link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header class="header" id="site_header">
+  <div class="gnb">
+    <a href="#" class="logo" aria-label="Tous Les Jours 홈으로 이동">
+      <img src="assets/images/icon/logo_white.svg" alt="" class="logo_icon">
+      <span class="logo_text">Tous Les Jours</span>
+    </a>
+
+    <button type="button" class="gnb_toggle" id="gnb_toggle" aria-expanded="false" aria-controls="gnb_nav">
+      <img src="assets/images/icon/menu.svg" alt="메뉴 열기">
+    </button>
+
+    <nav class="gnb_nav" id="gnb_nav" aria-label="주요 메뉴">
+      <ul>
+        <li><a href="#">뚜레쥬르 이야기</a></li>
+        <li><a href="#">맛있는 메뉴</a></li>
+        <li><a href="#">이벤트 / 혜택</a></li>
+        <li><a href="#">매장 찾기</a></li>
+        <li><a href="#">온라인 주문</a></li>
+      </ul>
+    </nav>
+
+    <div class="gnb_icons">
+      <a href="#with_us" class="btn_franchise">창업 안내</a>
+      <button type="button" class="icon_btn" aria-label="검색">
+        <img src="assets/images/icon/search.svg" alt="">
+      </button>
+      <button type="button" class="icon_btn" aria-label="마이페이지">
+        <img src="assets/images/icon/user.svg" alt="">
+      </button>
+    </div>
+  </div>
+</header>
+
+<main>
+
+  <!-- main visual -->
+  <section class="main_visual" id="main_visual" aria-label="메인 비주얼">
+    <div class="visual_swiper" id="visual_swiper">
+      <div class="visual_slide is_active" data-slide-index="0" style="background-image:url('assets/images/mainvisual1.png');">
+        <img src="assets/images/nacho.png" alt="" class="visual_deco visual_deco_nacho">
+        <div class="visual_txt_area">
+          <p class="visual_sub">뚜레쥬르 X 올디스 타코 콜라보</p>
+          <p class="visual_tit">콜라보 신제품 먹고<br>여름 휴가 떠나자</p>
+        </div>
+      </div>
+      <div class="visual_slide" data-slide-index="1" style="background-image:url('assets/images/mainvisual2.png');">
+        <img src="assets/images/fork.png" alt="" class="visual_deco visual_deco_fork">
+        <div class="visual_txt_area">
+          <p class="visual_sub">우베 브라우니 출시</p>
+          <p class="visual_tit">뚜레쥬르는 역시<br>브라우니 맛집</p>
+        </div>
+      </div>
+      <div class="visual_slide" data-slide-index="2" style="background-image:url('assets/images/mainvisual3.PNG');">
+        <div class="visual_txt_area">
+          <p class="visual_sub">하절기 신메뉴 출시</p>
+          <p class="visual_tit">쿨브레드부터 빙수까지<br>여름엔 얼려야 제맛</p>
+        </div>
+      </div>
+    </div>
+    <div class="visual_dots" id="visual_dots" role="tablist" aria-label="메인 비주얼 슬라이드 선택"></div>
+  </section>
+
+  <!-- menu (best/new) -->
+  <section class="menu_section" id="menu" aria-label="메뉴">
+    <div class="menu_inner">
+      <div class="menu_head">
+        <h2 class="section_tit">MENU</h2>
+        <a href="#" class="btn_view_more">VIEW MORE</a>
+      </div>
+
+      <div class="menu_tab_row">
+        <div class="menu_tab_group" role="tablist" aria-label="베스트 신제품 탭">
+          <button type="button" class="menu_tab is_active" id="tab_best" role="tab" aria-selected="true" aria-controls="panel_best">BEST</button>
+          <button type="button" class="menu_tab" id="tab_new" role="tab" aria-selected="false" aria-controls="panel_new">NEW</button>
+        </div>
+
+        <div class="category_tab_group" role="tablist" aria-label="제품 카테고리">
+          <button type="button" class="category_tab is_active" data-category="bread">빵</button>
+          <button type="button" class="category_tab" data-category="cake">케이크</button>
+          <button type="button" class="category_tab" data-category="deli">델리</button>
+          <button type="button" class="category_tab" data-category="dessert">디저트&amp;스낵</button>
+          <button type="button" class="category_tab" data-category="present">선물세트</button>
+          <button type="button" class="category_tab" data-category="drink">음료</button>
+        </div>
+      </div>
+
+      <div class="product_carousel">
+        <div class="product_track" id="panel_best" role="tabpanel" aria-labelledby="tab_best">
+          <article class="product_card is_wide">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread3.png" alt="소금버터롤">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#소금빵</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>소금버터롤</h3>
+              <p>버터의 고소함과 소금의 짭짤함이 어우러져 술술 들어가는 식사빵</p>
+              <div class="product_price_row">
+                <strong>2,800원</strong>
+                <button type="button" class="btn_product_go" aria-label="소금버터롤 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product_card">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread1.png" alt="단팥빵">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#소금빵</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>단팥빵</h3>
+              <p>달콤하고 부드러운 단팥 앙금을 듬뿍 넣어 남녀노소 좋아하는 간식빵</p>
+              <div class="product_price_row">
+                <strong>1,900원</strong>
+                <button type="button" class="btn_product_go" aria-label="단팥빵 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product_card">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread2.png" alt="낙엽 소시지 브레드">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#소시지빵</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>낙엽 소시지 브레드</h3>
+              <p>짭쪼름한 소시지와 아삭한 야채마요가 어우러진 인기 소시지빵</p>
+              <div class="product_price_row">
+                <strong>3,200원</strong>
+                <button type="button" class="btn_product_go" aria-label="낙엽 소시지 브레드 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product_card">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread4.png" alt="소보로빵">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#바삭달콤</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>소보로빵</h3>
+              <p>땅콩과 소보로가 토핑되어 고소한 풍미와 바삭한 식감을 즐길 수 있는 달콤한 간식빵</p>
+              <div class="product_price_row">
+                <strong>2,000원</strong>
+                <button type="button" class="btn_product_go" aria-label="소보로빵 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product_card">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread5.png" alt="슈크림빵">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#촉촉달콤</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>슈크림빵</h3>
+              <p>부드럽고 진한 슈크림이 가득 들어 있어 달콤한 풍미를 즐길 수 있는 촉촉한 간식빵</p>
+              <div class="product_price_row">
+                <strong>2,000원</strong>
+                <button type="button" class="btn_product_go" aria-label="슈크림빵 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product_card">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread6.png" alt="리얼 초코 소라빵">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#초코가득</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>리얼 초코 소라빵</h3>
+              <p>부드러운 소라 모양 빵에 진한 초코 크림이 듬뿍 들어있는 간식빵</p>
+              <div class="product_price_row">
+                <strong>2,400원</strong>
+                <button type="button" class="btn_product_go" aria-label="리얼 초코 소라빵 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product_card">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread7.png" alt="쫄깃한 찹쌀도넛">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#쌀탕종</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>쫄깃한 찹쌀도넛</h3>
+              <p>국내산 쌀로 만든 탕종으로 더 부드럽고 쫄깃해진 도넛 속과 고소하고 달콤한 팥 앙금이 가득!</p>
+              <div class="product_price_row">
+                <strong>1,800원</strong>
+                <button type="button" class="btn_product_go" aria-label="쫄깃한 찹쌀도넛 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product_card">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread8.png" alt="호두 연유 바게트">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#바게트</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>호두 연유 바게트</h3>
+              <p>고소한 풍미 가득 호두 바게트에 연유크림을 더해 달콤하게 즐기는 간식형 바게트</p>
+              <div class="product_price_row">
+                <strong>4,200원</strong>
+                <button type="button" class="btn_product_go" aria-label="호두 연유 바게트 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product_card">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread9.png" alt="크로크무슈">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#햄치즈</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>크로크무슈</h3>
+              <p>부드러운 식빵 위에 슬라이스 치즈와 햄을 놓고 피자 치즈를 듬뿍 뿌려 살짝 구운 간식빵</p>
+              <div class="product_price_row">
+                <strong>3,000원</strong>
+                <button type="button" class="btn_product_go" aria-label="크로크무슈 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+
+          <article class="product_card">
+            <div class="product_img">
+              <img src="assets/images/bread/best/bread10.png" alt="핫도그 패스츄리">
+              <div class="product_tag">
+                <span class="tag_best">BEST</span>
+                <span class="tag_hash">#패스츄리</span>
+              </div>
+            </div>
+            <div class="product_txt">
+              <h3>핫도그 패스츄리</h3>
+              <p>육즙이 살아있는 짭조름한 그릴후랑크를 바삭한 패스트리에 통째로 올린 제품</p>
+              <div class="product_price_row">
+                <strong>3,900원</strong>
+                <button type="button" class="btn_product_go" aria-label="핫도그 패스츄리 상세보기">
+                  <img src="assets/images/icon/arrow-circle.svg" alt="">
+                </button>
+              </div>
+            </div>
+          </article>
+        </div>
+
+        <div class="product_track is_hidden" id="panel_new" role="tabpanel" aria-labelledby="tab_new" hidden>
+          <p class="product_empty">준비 중입니다. 신제품 정보를 곧 만나보실 수 있어요.</p>
+        </div>
+
+        <div class="carousel_controls">
+          <button type="button" class="carousel_btn" id="menu_prev" aria-label="이전 상품">
+            <img src="assets/images/icon/arrow-left.svg" alt="">
+          </button>
+          <button type="button" class="carousel_btn" id="menu_next" aria-label="다음 상품">
+            <img src="assets/images/icon/arrow-right.svg" alt="">
+          </button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- shopping mall / reservation delivery -->
+  <section class="shopping_section" aria-label="쇼핑몰 예약 배송 서비스">
+    <div class="shopping_marquee" aria-hidden="true">
+      <div class="marquee_track">
+        <span>Desserts &amp; Snacks</span><span>Deli</span><span>Gift Set</span><span>drink</span><span>bread</span><span>Cake</span>
+        <span>Desserts &amp; Snacks</span><span>Deli</span><span>Gift Set</span><span>drink</span><span>bread</span><span>Cake</span>
+      </div>
+    </div>
+
+    <div class="shopping_inner">
+      <p class="section_eyebrow">SHOPPING MALL</p>
+      <h2 class="shopping_tit">예약 배송 서비스</h2>
+      <p class="shopping_desc">홈페이지에서도 뚜쥬 앱에서도 케이크를 주문해요!<br>뚜레쥬르가 소중한 분들께 선물을 직접 전해드릴게요.</p>
+
+      <div class="shopping_img_wrap">
+        <img src="assets/images/shoppingmall.png" alt="예약 배송 케이크">
+        <a href="#" class="btn_go_shopping">바로 가기 <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </section>
+
+  <!-- with us / franchise banner -->
+  <section class="with_us_section" id="with_us" aria-label="창업 안내">
+    <img src="assets/images/withus.png" alt="" class="with_us_bg">
+    <p class="with_us_watermark" aria-hidden="true">TOUS LES JOURS SINCE 1997</p>
+    <div class="with_us_content">
+      <div class="with_us_head">
+        <h2>WITH US</h2>
+        <p class="with_us_sub">창업 안내</p>
+      </div>
+      <p class="with_us_desc">한 조각의 빵에서 시작되는 성공 이야기!<br>뚜레쥬르와 함께할 가맹점주님을 모집합니다.</p>
+      <a href="#" class="btn_with_us">바로 가기 <span aria-hidden="true">→</span></a>
+    </div>
+  </section>
+
+  <!-- event -->
+  <section class="event_section" id="event" aria-label="이벤트">
+    <div class="event_inner">
+      <h2 class="section_tit">EVENT</h2>
+
+      <div class="event_swiper" id="event_swiper">
+        <div class="event_slide is_active" data-slide-index="0" style="background-image:url('assets/images/event1.png');">
+          <p class="event_sub">T 멤버십 VIP ONLY</p>
+          <p class="event_tit">7월 한 달간, 매일 오후 8시 이후 최대 30% 전제품 혜택</p>
+        </div>
+        <div class="event_slide" data-slide-index="1" style="background-image:url('assets/images/event2.png');">
+          <p class="event_sub">제휴 이벤트</p>
+          <p class="event_tit">뚜쥬에서는 매일매일 현대카드 50% M포인트 사용</p>
+        </div>
+        <div class="event_slide" data-slide-index="2" style="background-image:url('assets/images/evevn3.png');">
+          <p class="event_sub">뚜쥬 프렌즈</p>
+          <p class="event_tit">2026년 하반기 멤버십 혜택 안내</p>
+        </div>
+      </div>
+      <div class="event_dots" id="event_dots" role="tablist" aria-label="이벤트 슬라이드 선택"></div>
+    </div>
+  </section>
+
+  <!-- sns event -->
+  <section class="sns_section" aria-label="SNS 이벤트">
+    <div class="sns_inner">
+      <h2 class="section_tit">SNS EVENT</h2>
+
+      <div class="sns_carousel">
+        <button type="button" class="carousel_btn" id="sns_prev" aria-label="이전 이벤트">
+          <img src="assets/images/icon/arrow-left.svg" alt="">
+        </button>
+
+        <ul class="sns_list" id="sns_list">
+          <li class="sns_card" style="background-image:url('assets/images/sns1.png');">
+            <p>빵순이, 빵돌이들 다 모여라! 7월 뚜쥬 혜택 모음 .zip</p>
+          </li>
+          <li class="sns_card" style="background-image:url('assets/images/sns2.png');">
+            <p>뚜레쥬르 x 올디스 타코<br>대한민국 응원 이벤트</p>
+          </li>
+          <li class="sns_card" style="background-image:url('assets/images/sns3.png');">
+            <p>뚜레쥬르 x 올디스 타코<br>메인 이벤트</p>
+          </li>
+          <li class="sns_card" style="background-image:url('assets/images/sns4.png');">
+            <p>매월 22일은? 뚜쥬데이<br>전제품 22% 할인</p>
+          </li>
+        </ul>
+
+        <button type="button" class="carousel_btn" id="sns_next" aria-label="다음 이벤트">
+          <img src="assets/images/icon/arrow-right.svg" alt="">
+        </button>
+      </div>
+
+      <a href="https://www.instagram.com/touslesjours_kr" class="btn_instagram" target="_blank" rel="noopener noreferrer">
+        <img src="assets/images/icon/instagram_orange.svg" alt="">
+        <span>@touslesjours_kr</span>
+      </a>
+    </div>
+  </section>
+
+</main>
+
+<footer class="footer">
+  <div class="footer_inner">
+    <div class="footer_left">
+      <div class="footer_menu">
+        <div class="footer_menu_col">
+          <p class="footer_col_tit">이용메뉴</p>
+          <a href="#">회사소개</a>
+          <a href="#">창업안내</a>
+          <a href="#">기사채용안내</a>
+          <a href="#">이용약관</a>
+          <a href="#">위치기반서비스 이용약관</a>
+          <a href="#">윤리신고센터</a>
+          <a href="#">사이트맵</a>
+        </div>
+        <div class="footer_menu_col">
+          <p class="footer_col_tit">개인정보</p>
+          <a href="#">개인정보처리방침</a>
+          <a href="#">이메일무단수집거부</a>
+          <a href="#">법적고지</a>
+          <a href="#">영상정보처리기기 운영관리방침</a>
+        </div>
+      </div>
+
+      <div class="footer_sns">
+        <p>Follow us</p>
+        <a href="#" aria-label="페이스북"><img src="assets/images/icon/facebook.svg" alt=""></a>
+        <a href="#" aria-label="인스타그램"><img src="assets/images/icon/instagram.svg" alt=""></a>
+        <a href="#" aria-label="유튜브"><img src="assets/images/icon/youtube.svg" alt=""></a>
+      </div>
+
+      <p class="footer_copyright">COPYRIGHT 2026©CJ Foodville ALL RIGHT RESERVED.</p>
+    </div>
+
+    <div class="footer_right">
+      <div class="footer_info">
+        <div class="footer_menu_col">
+          <p class="footer_col_tit">상호명</p>
+          <p>CJ푸드빌(주)</p>
+          <p class="footer_col_tit">고객센터</p>
+          <p>1577-0700</p>
+          <p class="footer_col_tit">주소</p>
+          <p>서울시 중구 마른내로34(초동 106-9번지) KT&amp;G을지로타워 3,9~11층 CJ푸드빌(주)</p>
+        </div>
+        <div class="footer_menu_col">
+          <p class="footer_col_tit">사업자등록번호</p>
+          <p>312-81-42519</p>
+          <p class="footer_col_tit">통신판매업종신고증</p>
+          <p>제 2011-서울중구-0771호</p>
+          <p class="footer_col_tit">호스팅제공자</p>
+          <p>CJ올리브네트웍스(주)</p>
+        </div>
+        <div class="footer_menu_col">
+          <p class="footer_col_tit">대표이사</p>
+          <p>이건일</p>
+          <p class="footer_col_tit">대표 이메일</p>
+          <p>helpmaster@cj.net</p>
+          <p class="footer_col_tit">개인정보보호책임자</p>
+          <p>김재완</p>
+        </div>
+      </div>
+
+      <button type="button" class="btn_family_site" id="family_site_toggle" aria-expanded="false">
+        <span>family site</span>
+        <img src="assets/images/icon/chevron-down.svg" alt="">
+      </button>
+    </div>
+  </div>
+</footer>
+
+<script src="js/main.js"></script>
+</body>
+</html>
