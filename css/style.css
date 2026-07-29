@@ -591,10 +591,10 @@ body {
   gap: 20px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
-  padding-bottom: 8px;
   scrollbar-width: none;
   cursor: grab;
-  padding: 20px 0;
+  padding: 20px 15px;
+  scroll-padding-inline: 15px;
 }
 
 .product_track.is_dragging {
@@ -624,14 +624,13 @@ body {
 }
 
 .product_card.is_center {
-  transform: scale(1.08);
   position: relative;
   z-index: 2;
 }
 
 .product_img {
   position: relative;
-  aspect-ratio: 356 / 316;
+  aspect-ratio: 1;
   background-color: var(--color_white);
 }
 
@@ -736,6 +735,10 @@ body {
 .carousel_btn {
   width: 48px;
   height: 48px;
+  min-width: 48px;
+  min-height: 48px;
+  padding: 0;
+  aspect-ratio: 1;
   border-radius: 50%;
   background-color: var(--color_orange_5);
   display: flex;
@@ -767,8 +770,17 @@ body {
   }
 
   /* tablet: 3 cards per view, equal width */
+  .product_track {
+    padding-inline: 0;
+    scroll-padding-inline: 0;
+  }
+
   .product_card {
     flex-basis: calc((100% - 2 * 20px) / 3);
+  }
+
+  .product_card.is_center {
+    transform: scale(1.08);
   }
 }
 
@@ -1034,15 +1046,18 @@ body {
 }
 
 .event1 {
-  background-image: url("../assets/images/event1.png");
+  --event_text_color: var(--color_white);
+  background-image: url("../assets/images/event1_mobile.png");
 }
 
 .event2 {
-  background-image: url("../assets/images/event2.png");
+  --event_text_color: var(--color_black);
+  background-image: url("../assets/images/event2_mobile.png");
 }
 
 .event3 {
-  background-image: url("../assets/images/evevn3.png");
+  --event_text_color: var(--color_black);
+  background-image: url("../assets/images/evevn3_mobile.png");
 }
 
 .event_slide {
@@ -1062,14 +1077,14 @@ body {
 .event_sub {
   font-weight: 700;
   font-size: 17px;
-  color: var(--color_bg_menu);
+  color: var(--event_text_color);
 }
 
 .event_tit {
   font-weight: 700;
   font-size: 26px;
   line-height: 1.35;
-  color: var(--color_black);
+  color: var(--event_text_color);
   max-width: 240px;
 }
 
@@ -1096,6 +1111,18 @@ body {
 
 /* tablet */
 @media (min-width: 768px) {
+  .event1 {
+    background-image: url("../assets/images/event1_tab.png");
+  }
+
+  .event2 {
+    background-image: url("../assets/images/event2_tab.png");
+  }
+
+  .event3 {
+    background-image: url("../assets/images/evevn3_tab.png");
+  }
+
   .event_swiper {
     aspect-ratio: 1024 / 420;
   }
@@ -1117,6 +1144,18 @@ body {
 
 /* desktop */
 @media (min-width: 1280px) {
+  .event1 {
+    background-image: url("../assets/images/event1.png");
+  }
+
+  .event2 {
+    background-image: url("../assets/images/event2.png");
+  }
+
+  .event3 {
+    background-image: url("../assets/images/evevn3.png");
+  }
+
   .event_swiper {
     aspect-ratio: 1600 / 490;
   }
