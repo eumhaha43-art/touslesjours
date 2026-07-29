@@ -13,6 +13,11 @@
     return dot;
   }
 
+  function prefersReducedMotion() {
+    return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
+  }
+
+  // fade + dot only slider (used by the event section, unchanged)
   function setupSlider(rootId, slideSelector, dotsId, label) {
     var root = document.getElementById(rootId);
     var dotsWrap = document.getElementById(dotsId);
@@ -54,16 +59,305 @@
     }
   }
 
-  function handleGnbToggleClick() {
-    var toggleBtn = document.getElementById("gnb_toggle");
-    var nav = document.getElementById("gnb_nav");
-    if (!toggleBtn || !nav) {
+  // main visual: translate-track slider with drag navigation + 5s autoplay
+  function initMainVisual() {
+    var swiper = document.getElementById("visual_swiper");
+    var track = document.getElementById("visual_track");
+    var dotsWrap = document.getElementById("visual_dots");
+    if (!swiper || !track || !dotsWrap) {
       return;
     }
 
-    toggleBtn.addEventListener("click", function () {
+    var slides = Array.prototype.slice.call(track.querySelectorAll(".visual_slide"));
+    if (slides.length === 0) {
+      return;
+    }
+
+    var currentIndex = slides.findIndex(function (slide) {
+      return slide.classList.contains("is_active");
+    });
+    if (currentIndex < 0) {
+      currentIndex = 0;
+    }
+
+    var dots = slides.map(function (slide, index) {
+      var dot = createDot(index, "메인 비주얼 슬라이드", index === currentIndex);
+      dot.addEventListener("click", function () {
+        handleGoToSlide(index);
+      });
+      dotsWrap.appendChild(dot);
+      return dot;
+    });
+
+    var autoplayTimerId = null;
+    var isPointerDown = false;
+    var hasDraggedPastThreshold = false;
+    var startX = 0;
+    var swiperWidth = 0;
+
+    function applyTrackPosition() {
+      track.style.transform = "translateX(" + -currentIndex * 100 + "%)";
+    }
+
+    function handleGoToSlide(nextIndex) {
+      if (nextIndex < 0) {
+        nextIndex = slides.length - 1;
+      } else if (nextIndex >= slides.length) {
+        nextIndex = 0;
+      }
+
+      slides[currentIndex].classList.remove("is_active");
+      dots[currentIndex].classList.remove("is_active");
+      dots[currentIndex].setAttribute("aria-selected", "false");
+
+      currentIndex = nextIndex;
+
+      slides[currentIndex].classList.add("is_active");
+      dots[currentIndex].classList.add("is_active");
+      dots[currentIndex].setAttribute("aria-selected", "true");
+
+      applyTrackPosition();
+    }
+
+    function startAutoplay() {
+      if (prefersReducedMotion()) {
+        return;
+      }
+      stopAutoplay();
+      autoplayTimerId = window.setInterval(function () {
+        handleGoToSlide(currentIndex + 1);
+      }, 5000);
+    }
+
+    function stopAutoplay() {
+      if (autoplayTimerId) {
+        window.clearInterval(autoplayTimerId);
+        autoplayTimerId = null;
+      }
+    }
+
+    function handlePointerDown(e) {
+      isPointerDown = true;
+      hasDraggedPastThreshold = false;
+      startX = e.clientX;
+      swiperWidth = swiper.getBoundingClientRect().width;
+      track.classList.add("is_dragging");
+      track.setPointerCapture(e.pointerId);
+      stopAutoplay();
+    }
+
+    function handlePointerMove(e) {
+      if (!isPointerDown) {
+        return;
+      }
+      var deltaX = e.clientX - startX;
+      if (Math.abs(deltaX) > 5) {
+        hasDraggedPastThreshold = true;
+      }
+      var basePercent = -currentIndex * 100;
+      var dragPercent = swiperWidth ? (deltaX / swiperWidth) * 100 : 0;
+      track.style.transform = "translateX(" + (basePercent + dragPercent) + "%)";
+    }
+
+    function handlePointerUp(e) {
+      if (!isPointerDown) {
+        return;
+      }
+      isPointerDown = false;
+      track.classList.remove("is_dragging");
+
+      var deltaX = e.clientX - startX;
+      var threshold = swiperWidth * 0.15;
+
+      if (deltaX <= -threshold) {
+        handleGoToSlide(currentIndex + 1);
+      } else if (deltaX >= threshold) {
+        handleGoToSlide(currentIndex - 1);
+      } else {
+        applyTrackPosition();
+      }
+      startAutoplay();
+    }
+
+    track.addEventListener("pointerdown", handlePointerDown);
+    track.addEventListener("pointermove", handlePointerMove);
+    track.addEventListener("pointerup", handlePointerUp);
+    track.addEventListener("pointercancel", handlePointerUp);
+
+    track.addEventListener(
+      "click",
+      function (e) {
+        if (hasDraggedPastThreshold) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+
+    swiper.addEventListener("mouseenter", stopAutoplay);
+    swiper.addEventListener("mouseleave", startAutoplay);
+
+    applyTrackPosition();
+    startAutoplay();
+  }
+
+  function handleGnbToggleClick() {
+    var nav = document.getElementById("gnb_nav");
+    if (!nav) {
+      return;
+    }
+
+    var toggleButtons = ["gnb_toggle", "gnb_menu_toggle"]
+      .map(function (id) {
+        return document.getElementById(id);
+      })
+      .filter(function (btn) {
+        return !!btn;
+      });
+
+    if (toggleButtons.length === 0) {
+      return;
+    }
+
+    function handleToggleClick() {
       var isOpen = nav.classList.toggle("is_open");
-      toggleBtn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      toggleButtons.forEach(function (btn) {
+        btn.setAttribute("aria-expanded", isOpen ? "true" : "false");
+      });
+    }
+
+    toggleButtons.forEach(function (btn) {
+      btn.addEventListener("click", handleToggleClick);
+    });
+  }
+
+  // menu carousel: nearest-to-center card gets enlarged via .is_center
+  function updateCenterCard(track) {
+    if (!track || track.hidden) {
+      return;
+    }
+    var cards = Array.prototype.slice
+      .call(track.querySelectorAll(".product_card"))
+      .filter(function (card) {
+        return !card.hidden;
+      });
+    if (cards.length === 0) {
+      return;
+    }
+
+    var trackRect = track.getBoundingClientRect();
+    var trackCenter = trackRect.left + trackRect.width / 2;
+    var closestCard = null;
+    var closestDistance = Infinity;
+
+    cards.forEach(function (card) {
+      var cardRect = card.getBoundingClientRect();
+      var cardCenter = cardRect.left + cardRect.width / 2;
+      var distance = Math.abs(cardCenter - trackCenter);
+      if (distance < closestDistance) {
+        closestDistance = distance;
+        closestCard = card;
+      }
+    });
+
+    cards.forEach(function (card) {
+      card.classList.toggle("is_center", card === closestCard);
+    });
+  }
+
+  function initDragScroll(track) {
+    var isPointerDown = false;
+    var hasDraggedPastThreshold = false;
+    var startX = 0;
+    var startScrollLeft = 0;
+
+    function handlePointerDown(e) {
+      isPointerDown = true;
+      hasDraggedPastThreshold = false;
+      startX = e.clientX;
+      startScrollLeft = track.scrollLeft;
+      track.classList.add("is_dragging");
+      track.setPointerCapture(e.pointerId);
+    }
+
+    function handlePointerMove(e) {
+      if (!isPointerDown) {
+        return;
+      }
+      var deltaX = e.clientX - startX;
+      if (Math.abs(deltaX) > 3) {
+        hasDraggedPastThreshold = true;
+      }
+      track.scrollLeft = startScrollLeft - deltaX;
+    }
+
+    function handlePointerUp() {
+      if (!isPointerDown) {
+        return;
+      }
+      isPointerDown = false;
+      track.classList.remove("is_dragging");
+    }
+
+    track.addEventListener("pointerdown", handlePointerDown);
+    track.addEventListener("pointermove", handlePointerMove);
+    track.addEventListener("pointerup", handlePointerUp);
+    track.addEventListener("pointercancel", handlePointerUp);
+    track.addEventListener("pointerleave", handlePointerUp);
+
+    track.addEventListener(
+      "click",
+      function (e) {
+        if (hasDraggedPastThreshold) {
+          e.preventDefault();
+          e.stopPropagation();
+        }
+      },
+      true
+    );
+
+    track.addEventListener("scroll", function () {
+      window.requestAnimationFrame(function () {
+        updateCenterCard(track);
+      });
+    });
+  }
+
+  function handleMenuCarouselStep(direction) {
+    var track = document.querySelector(".product_track:not([hidden])");
+    if (!track) {
+      return;
+    }
+    var visibleCard = track.querySelector(".product_card:not([hidden])");
+    var cardWidth = visibleCard ? visibleCard.getBoundingClientRect().width + 20 : 300;
+    track.scrollBy({ left: direction * cardWidth, behavior: "smooth" });
+  }
+
+  function initMenuCarousel() {
+    var tracks = Array.prototype.slice.call(document.querySelectorAll(".product_track"));
+    tracks.forEach(function (track) {
+      initDragScroll(track);
+      updateCenterCard(track);
+    });
+
+    var prevBtn = document.getElementById("menu_prev");
+    var nextBtn = document.getElementById("menu_next");
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        handleMenuCarouselStep(-1);
+      });
+    }
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        handleMenuCarouselStep(1);
+      });
+    }
+
+    window.addEventListener("resize", function () {
+      tracks.forEach(function (track) {
+        updateCenterCard(track);
+      });
     });
   }
 
@@ -85,6 +379,8 @@
 
       activePanel.hidden = false;
       inactivePanel.hidden = true;
+
+      updateCenterCard(activePanel);
     }
 
     tabBest.addEventListener("click", function () {
@@ -122,6 +418,8 @@
           card.hidden = !hasCategoryData;
         });
         emptyMessage.hidden = hasCategoryData;
+
+        updateCenterCard(panelBest);
       });
     });
   }
@@ -163,11 +461,11 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     handleGnbToggleClick();
-    setupSlider("visual_swiper", ".visual_slide", "visual_dots", "메인 비주얼 슬라이드");
+    initMainVisual();
     setupSlider("event_swiper", ".event_slide", "event_dots", "이벤트 슬라이드");
     handleMenuTabs();
     handleCategoryTabs();
-    handleCarouselScroll("menu_prev", "menu_next", "#panel_best");
+    initMenuCarousel();
     handleCarouselScroll("sns_prev", "sns_next", "#sns_list");
     handleFamilySiteToggle();
   });
