@@ -293,9 +293,86 @@
     track.scrollBy({ left: direction * cardWidth, behavior: "smooth" });
   }
 
+  function initInfiniteMenuTrack(track) {
+    var originalCards = Array.prototype.slice.call(track.querySelectorAll(".product_card"));
+    if (originalCards.length === 0 || track.dataset.isInfinite === "true") {
+      return;
+    }
+
+    var beforeFragment = document.createDocumentFragment();
+    var afterFragment = document.createDocumentFragment();
+
+    originalCards.forEach(function (card, index) {
+      var beforeClone = card.cloneNode(true);
+      var afterClone = card.cloneNode(true);
+
+      [beforeClone, afterClone].forEach(function (clone) {
+        clone.classList.add("is_clone");
+        clone.setAttribute("aria-hidden", "true");
+        Array.prototype.slice.call(clone.querySelectorAll("button, a")).forEach(function (control) {
+          control.setAttribute("tabindex", "-1");
+        });
+      });
+
+      if (index === 0) {
+        card.dataset.carouselStart = "true";
+        afterClone.dataset.carouselCloneStart = "true";
+      }
+
+      beforeFragment.appendChild(beforeClone);
+      afterFragment.appendChild(afterClone);
+    });
+
+    track.insertBefore(beforeFragment, originalCards[0]);
+    track.appendChild(afterFragment);
+    track.dataset.isInfinite = "true";
+
+    function getLoopPositions() {
+      var originalStartCard = track.querySelector('[data-carousel-start="true"]');
+      var cloneStartCard = track.querySelector('[data-carousel-clone-start="true"]');
+      return {
+        originalStart: originalStartCard ? originalStartCard.offsetLeft : 0,
+        cloneStart: cloneStartCard ? cloneStartCard.offsetLeft : 0,
+      };
+    }
+
+    function moveToOriginalSet() {
+      if (track.hidden) {
+        return;
+      }
+      track.scrollLeft = getLoopPositions().originalStart;
+      updateCenterCard(track);
+    }
+
+    function normalizeLoopPosition() {
+      var positions = getLoopPositions();
+      var loopWidth = positions.cloneStart - positions.originalStart;
+      if (loopWidth <= 0) {
+        return;
+      }
+
+      if (track.scrollLeft >= positions.cloneStart - 2) {
+        track.scrollLeft -= loopWidth;
+      } else if (track.scrollLeft < positions.originalStart - 2) {
+        track.scrollLeft += loopWidth;
+      }
+      updateCenterCard(track);
+    }
+
+    var scrollEndTimer = null;
+    track.addEventListener("scroll", function () {
+      window.clearTimeout(scrollEndTimer);
+      scrollEndTimer = window.setTimeout(normalizeLoopPosition, 120);
+    });
+
+    track.moveToOriginalSet = moveToOriginalSet;
+    window.requestAnimationFrame(moveToOriginalSet);
+  }
+
   function initMenuCarousel() {
     var tracks = Array.prototype.slice.call(document.querySelectorAll(".product_track"));
     tracks.forEach(function (track) {
+      initInfiniteMenuTrack(track);
       initDragScroll(track);
       updateCenterCard(track);
     });
@@ -315,6 +392,9 @@
 
     window.addEventListener("resize", function () {
       tracks.forEach(function (track) {
+        if (typeof track.moveToOriginalSet === "function") {
+          track.moveToOriginalSet();
+        }
         updateCenterCard(track);
       });
     });
@@ -339,6 +419,9 @@
       activePanel.hidden = false;
       inactivePanel.hidden = true;
 
+      if (typeof activePanel.moveToOriginalSet === "function") {
+        activePanel.moveToOriginalSet();
+      }
       updateCenterCard(activePanel);
     }
 
@@ -358,7 +441,6 @@
       return;
     }
 
-    var bestProducts = Array.prototype.slice.call(panelBest.querySelectorAll(".product_card"));
     var emptyMessage = document.createElement("p");
     emptyMessage.className = "product_empty";
     emptyMessage.hidden = true;
@@ -373,6 +455,7 @@
         tab.classList.add("is_active");
 
         var hasCategoryData = tab.dataset.category === "bread";
+        var bestProducts = Array.prototype.slice.call(panelBest.querySelectorAll(".product_card"));
         bestProducts.forEach(function (card) {
           card.hidden = !hasCategoryData;
         });
