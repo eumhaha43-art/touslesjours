@@ -113,8 +113,8 @@ body {
 
 .section_tit {
   font-family: var(--font_heading);
-  font-weight: 700;
-  font-size: clamp(28px, 4.5vw, 54px);
+  font-weight: 600;
+  font-size: clamp(20px, 4.5vw, 44px);
   letter-spacing: 0.02em;
   color: var(--color_green_8);
 }
@@ -179,10 +179,11 @@ body {
 
 .logo_text {
   font-family: var(--font_heading);
-  font-weight: 700;
+  font-weight: 600;
   font-size: clamp(18px, 2vw, 28px);
   color: var(--color_white);
   white-space: nowrap;
+  letter-spacing: -1px;
 }
 
 .gnb_nav {
@@ -459,6 +460,7 @@ body {
 .sns_inner {
   max-width: 1600px;
   margin: 0 auto;
+  width: 100%;
 }
 
 
@@ -1017,38 +1019,58 @@ body {
   overflow: hidden;
 }
 
+.event_track {
+  display: flex;
+  width: 100%;
+  height: 100%;
+  cursor: grab;
+  transition: transform 0.4s ease;
+}
+
+.event_track.is_dragging {
+  cursor: grabbing;
+  transition: none;
+  user-select: none;
+}
+
+.event1 {
+  background-image: url("../assets/images/event1.png");
+}
+
+.event2 {
+  background-image: url("../assets/images/event2.png");
+}
+
+.event3 {
+  background-image: url("../assets/images/evevn3.png");
+}
+
 .event_slide {
-  position: absolute;
-  inset: 0;
+  position: relative;
+  flex: 0 0 100%;
+  width: 100%;
+  height: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
   gap: 8px;
-  padding: 32px;
+  padding: 24px;
   background-size: cover;
   background-position: center;
-  opacity: 0;
-  visibility: hidden;
-  transition: opacity 0.5s ease;
-}
-
-.event_slide.is_active {
-  opacity: 1;
-  visibility: visible;
 }
 
 .event_sub {
   font-weight: 700;
-  font-size: clamp(16px, 2.2vw, 32px);
+  font-size: 17px;
   color: var(--color_bg_menu);
 }
 
 .event_tit {
   font-weight: 700;
-  font-size: clamp(20px, 3vw, 48px);
-  line-height: 1.3;
+  font-size: 26px;
+  line-height: 1.35;
   color: var(--color_black);
-  max-width: 640px;
+  max-width: 240px;
 }
 
 .event_dots {
@@ -1072,17 +1094,47 @@ body {
   background-color: var(--color_orange_5);
 }
 
+/* tablet */
 @media (min-width: 768px) {
   .event_swiper {
     aspect-ratio: 1024 / 420;
   }
+
+  .event_slide {
+    padding: 32px;
+  }
+
+  .event_sub {
+    font-size: 20px;
+  }
+
+  .event_tit {
+    font-size: 36px;
+    line-height: 1.3;
+    max-width: 520px;
+  }
 }
 
+/* desktop */
 @media (min-width: 1280px) {
   .event_swiper {
     aspect-ratio: 1600 / 490;
   }
+
+  .event_sub {
+    font-size: 32px;
+  }
+
+  .event_tit {
+    font-size: 48px;
+    max-width: 640px;
+  }
 }
+
+
+
+
+
 
 /* =========================================================
    SNS Event
@@ -1092,19 +1144,36 @@ body {
 }
 
 .sns_carousel {
+  position: relative;
   display: flex;
   align-items: center;
+  justify-content: center;
   gap: 12px;
   margin-top: 24px;
 }
 
 .sns_list {
-  flex: 1;
   display: flex;
   gap: 16px;
   overflow-x: auto;
   scroll-snap-type: x mandatory;
   scrollbar-width: none;
+}
+
+/* mobile: 1 card visible per view, arrows overlap the card edges */
+.sns_carousel .carousel_btn {
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+  z-index: 3;
+}
+
+.sns_carousel .carousel_btn:first-child {
+  left: 4px;
+}
+
+.sns_carousel .carousel_btn:last-child {
+  right: 4px;
 }
 
 .sns_list::-webkit-scrollbar {
@@ -1113,8 +1182,6 @@ body {
 
 .sns_card {
   scroll-snap-align: start;
-  flex: 0 0 220px;
-  aspect-ratio: 322 / 458;
   border-radius: var(--radius_sns_card);
   background-size: cover;
   background-position: center;
@@ -1122,6 +1189,8 @@ body {
   align-items: flex-end;
   padding: 20px;
   position: relative;
+  flex: 0 0 100%;
+  aspect-ratio: 322 / 458;
 }
 
 .sns_card::before {
@@ -1136,8 +1205,9 @@ body {
   position: relative;
   color: var(--color_white);
   font-weight: 700;
-  font-size: 16px;
+  font-size: 24px;
   line-height: 1.4;
+  margin-bottom: 16px;
 }
 
 .btn_instagram {
@@ -1173,15 +1243,40 @@ body {
   text-transform: lowercase;
 }
 
+/* tablet: 2 cards per row, 2 rows, small gap to the arrows */
 @media (min-width: 768px) {
+  .sns_carousel {
+    gap: 8px;
+  }
+
+  .sns_carousel .carousel_btn {
+    position: static;
+    transform: none;
+  }
+
+  .sns_list {
+    flex-wrap: wrap;
+    overflow: visible;
+  }
+
   .sns_card {
-    flex-basis: 280px;
+    flex: 0 0 calc((100% - 16px) / 2);
   }
 }
 
+/* desktop: all 4 cards in a single centered row */
 @media (min-width: 1280px) {
+  .sns_carousel {
+    gap: 12px;
+  }
+
+  .sns_list {
+    flex-wrap: nowrap;
+    justify-content: center;
+  }
+
   .sns_card {
-    flex-basis: 322px;
+    flex: 0 0 322px;
   }
 }
 

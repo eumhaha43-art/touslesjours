@@ -17,58 +17,17 @@
     return window.matchMedia("(prefers-reduced-motion: reduce)").matches;
   }
 
-  // fade + dot only slider (used by the event section, unchanged)
-  function setupSlider(rootId, slideSelector, dotsId, label) {
-    var root = document.getElementById(rootId);
-    var dotsWrap = document.getElementById(dotsId);
-    if (!root || !dotsWrap) {
-      return;
-    }
-
-    var slides = Array.prototype.slice.call(root.querySelectorAll(slideSelector));
-    if (slides.length === 0) {
-      return;
-    }
-
-    var currentIndex = slides.findIndex(function (slide) {
-      return slide.classList.contains("is_active");
-    });
-    if (currentIndex < 0) {
-      currentIndex = 0;
-    }
-
-    var dots = slides.map(function (slide, index) {
-      var dot = createDot(index, label, index === currentIndex);
-      dot.addEventListener("click", function () {
-        handleSlideChange(index);
-      });
-      dotsWrap.appendChild(dot);
-      return dot;
-    });
-
-    function handleSlideChange(nextIndex) {
-      slides[currentIndex].classList.remove("is_active");
-      dots[currentIndex].classList.remove("is_active");
-      dots[currentIndex].setAttribute("aria-selected", "false");
-
-      currentIndex = nextIndex;
-
-      slides[currentIndex].classList.add("is_active");
-      dots[currentIndex].classList.add("is_active");
-      dots[currentIndex].setAttribute("aria-selected", "true");
-    }
-  }
-
-  // main visual: translate-track slider with drag navigation + 5s autoplay
-  function initMainVisual() {
-    var swiper = document.getElementById("visual_swiper");
-    var track = document.getElementById("visual_track");
-    var dotsWrap = document.getElementById("visual_dots");
+  // translate-track slider with drag navigation + 5s autoplay
+  // used by both the main visual and the event section
+  function initDragSlider(options) {
+    var swiper = document.getElementById(options.swiperId);
+    var track = document.getElementById(options.trackId);
+    var dotsWrap = document.getElementById(options.dotsId);
     if (!swiper || !track || !dotsWrap) {
       return;
     }
 
-    var slides = Array.prototype.slice.call(track.querySelectorAll(".visual_slide"));
+    var slides = Array.prototype.slice.call(track.querySelectorAll(options.slideSelector));
     if (slides.length === 0) {
       return;
     }
@@ -81,7 +40,7 @@
     }
 
     var dots = slides.map(function (slide, index) {
-      var dot = createDot(index, "메인 비주얼 슬라이드", index === currentIndex);
+      var dot = createDot(index, options.label, index === currentIndex);
       dot.addEventListener("click", function () {
         handleGoToSlide(index);
       });
@@ -461,8 +420,20 @@
 
   document.addEventListener("DOMContentLoaded", function () {
     handleGnbToggleClick();
-    initMainVisual();
-    setupSlider("event_swiper", ".event_slide", "event_dots", "이벤트 슬라이드");
+    initDragSlider({
+      swiperId: "visual_swiper",
+      trackId: "visual_track",
+      slideSelector: ".visual_slide",
+      dotsId: "visual_dots",
+      label: "메인 비주얼 슬라이드",
+    });
+    initDragSlider({
+      swiperId: "event_swiper",
+      trackId: "event_track",
+      slideSelector: ".event_slide",
+      dotsId: "event_dots",
+      label: "이벤트 슬라이드",
+    });
     handleMenuTabs();
     handleCategoryTabs();
     initMenuCarousel();
