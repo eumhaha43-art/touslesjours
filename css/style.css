@@ -370,6 +370,20 @@ body {
   color: var(--color_black);
 }
 
+.title_last {
+  display: inline-flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.title_last .visual_deco {
+  display: block;
+  position: static;
+  width: 40px;
+  height: auto;
+  flex: 0 0 auto;
+}
+
 .visual_deco {
   display: none;
 }
@@ -415,6 +429,10 @@ body {
     bottom: 30%;
     right: 15%;
   }
+
+  .title_last .visual_deco {
+    width: 50px;
+  }
 }
 
 @media (min-width: 1280px) {
@@ -442,6 +460,10 @@ body {
     position: static;
     width: 60px;
     height: auto;
+  }
+
+  .title_last .visual_deco {
+    width: 60px;
   }
 }
 
