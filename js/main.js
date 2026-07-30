@@ -85,7 +85,7 @@
       stopAutoplay();
       autoplayTimerId = window.setInterval(function () {
         handleGoToSlide(currentIndex + 1);
-      }, 5000);
+      }, 2000);
     }
 
     function stopAutoplay() {
