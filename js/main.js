@@ -466,38 +466,41 @@
     });
   }
 
-  function handleCarouselScroll(prevId, nextId, trackSelector) {
-    var prevBtn = document.getElementById(prevId);
-    var nextBtn = document.getElementById(nextId);
-    var track = document.querySelector(trackSelector);
-    if (!prevBtn || !nextBtn || !track) {
+  // sns event: arrow steps by one full page (1 card on mobile, 4 cards on tablet/desktop)
+  function handleSnsCarouselStep(direction) {
+    var list = document.getElementById("sns_list");
+    if (!list) {
       return;
     }
+    list.scrollBy({ left: direction * list.clientWidth, behavior: "smooth" });
+  }
 
-    function scrollByCard(direction) {
-      var card = track.querySelector(":scope > *");
-      var cardWidth = card ? card.getBoundingClientRect().width + 20 : 300;
-      track.scrollBy({ left: direction * cardWidth, behavior: "smooth" });
+  function initSnsCarousel() {
+    var prevBtn = document.getElementById("sns_prev");
+    var nextBtn = document.getElementById("sns_next");
+    if (prevBtn) {
+      prevBtn.addEventListener("click", function () {
+        handleSnsCarouselStep(-1);
+      });
     }
-
-    prevBtn.addEventListener("click", function () {
-      scrollByCard(-1);
-    });
-
-    nextBtn.addEventListener("click", function () {
-      scrollByCard(1);
-    });
+    if (nextBtn) {
+      nextBtn.addEventListener("click", function () {
+        handleSnsCarouselStep(1);
+      });
+    }
   }
 
   function handleFamilySiteToggle() {
     var toggleBtn = document.getElementById("family_site_toggle");
-    if (!toggleBtn) {
+    var list = document.getElementById("family_site_list");
+    if (!toggleBtn || !list) {
       return;
     }
 
     toggleBtn.addEventListener("click", function () {
       var isExpanded = toggleBtn.getAttribute("aria-expanded") === "true";
       toggleBtn.setAttribute("aria-expanded", isExpanded ? "false" : "true");
+      list.hidden = isExpanded;
     });
   }
 
@@ -520,7 +523,7 @@
     handleMenuTabs();
     handleCategoryTabs();
     initMenuCarousel();
-    handleCarouselScroll("sns_prev", "sns_next", "#sns_list");
+    initSnsCarousel();
     handleFamilySiteToggle();
   });
 })();

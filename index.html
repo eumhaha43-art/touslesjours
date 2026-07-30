@@ -65,10 +65,15 @@
             </div>
           </div>
           <div class="visual_slide" data-slide-index="1" style="background-image:url('assets/images/mainvisual2.png');">
-            <img src="assets/images/fork.png" alt="" class="visual_deco visual_deco_fork">
             <div class="visual_txt_area">
               <p class="visual_sub">우베 브라우니 출시</p>
-              <p class="visual_tit">뚜레쥬르는 역시<br>브라우니 맛집</p>
+              <p class="visual_tit">
+                뚜레쥬르는 역시<br>
+                <span class="title_last">
+                  브라우니 맛집
+                  <img src="assets/images/fork.png" alt="" class="visual_deco">
+                </span>
+              </p>
             </div>
           </div>
           <div class="visual_slide" data-slide-index="2" style="background-image:url('assets/images/mainvisual3.PNG');">
@@ -608,6 +613,19 @@
             <li class="sns_card" style="background-image:url('assets/images/sns4.png');">
               <p>매월 22일은? 뚜쥬데이<br>전제품 22% 할인</p>
             </li>
+            <li class="sns_card" style="background-image:url('assets/images/sns5.png');">
+              <p>올디스타코 신제품 먹고 여름 휴가 떠나자!<br>콜라보 이벤트</p>
+            </li>
+            <li class="sns_card" style="background-image:url('assets/images/sns6.png');">
+              <p>여름엔 역시 빙수가 제맛<br>뚜레쥬르 빙수 라인업</p>
+            </li>
+            <li class="sns_card" style="background-image:url('assets/images/sns7.png');">
+              <p>본격 쿨 브레드 ASMR<br>시원한 소리 듣고가요</p>
+            </li>
+            <li class="sns_card" style="background-image:url('assets/images/sns8.png');">
+              <p>브라우니 맛집 뚜레쥬르<br>우베 브라우니도 출시!</p>
+            </li>
+            
           </ul>
 
           <button type="button" class="carousel_btn" id="sns_next" aria-label="다음 이벤트">
@@ -651,7 +669,7 @@
         <div class="footer_sns">
           <p>Follow us</p>
           <a href="#" aria-label="페이스북"><img src="assets/images/icon/facebook.svg" alt=""></a>
-          <a href="#" aria-label="인스타그램"><img src="assets/images/icon/instagram.svg" alt=""></a>
+          <a href="https://www.instagram.com/touslesjours_kr" target="_blank" rel="noopener noreferrer" aria-label="인스타그램"><img src="assets/images/icon/instagram.svg" alt=""></a>
           <a href="#" aria-label="유튜브"><img src="assets/images/icon/youtube.svg" alt=""></a>
         </div>
 
@@ -686,7 +704,15 @@
           </div>
         </div>
 
-        <button type="button" class="btn_family_site" id="family_site_toggle" aria-expanded="false">
+        <ul class="family_site_list" id="family_site_list" hidden>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">CJ푸드빌</a></li>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">VIPS</a></li>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">THE PLACE</a></li>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">제일제면소</a></li>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">n.GRILL</a></li>
+          <li><a href="#" target="_blank" rel="noopener noreferrer">N SEOUL TOWER</a></li>
+        </ul>
+        <button type="button" class="btn_family_site" id="family_site_toggle" aria-expanded="false" aria-controls="family_site_list">
           <span>family site</span>
           <img src="assets/images/icon/chevron-down.svg" alt="">
         </button>
